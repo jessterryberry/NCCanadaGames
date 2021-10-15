@@ -1,0 +1,143 @@
+﻿@model IEnumerable<CanadaGames.Models.Athlete>
+
+@{
+    ViewData["Title"] = "Athlete Index";
+}
+
+<h2>Athlete Index</h2>
+
+<p>
+    <a asp-action="Create">Create New Athlete</a>
+</p>
+<form asp-action="Index" method="get">
+    <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
+    <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
+    <div class="form-horizontal">
+        <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+            Filter/Search
+        </button>
+        <div class="collapse @(ViewData["Filtering"])" id="collapseFilter">
+            <div class="card card-body bg-light">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Select by Contingent:</label>
+                        @Html.DropDownList("ContingentID", null, "All Contingents", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Filter by Sport:</label>
+                        @Html.DropDownList("SportID", null, "None", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Filter by Gender:</label>
+                        @Html.DropDownList("GenderID", null, "None", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Filter by Coach:</label>
+                        @Html.DropDownList("CoachID", null, "None", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Search Athlete Name:</label>
+                        @Html.TextBox("SearchAthlete", null, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Search Media Info:</label>
+                        @Html.TextBox("SearchMedia", null, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4 align-self-end">
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                        <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="submit" name="actionButton" value="Athlete" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" name="actionButton" value="Athlete Code" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Age" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Contingent" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Sport" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" name="actionButton" value="Other Sports" class="btn btn-link" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ACode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contingent.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sport.Name)
+                </td>
+                <td>
+                    @{
+                        int sportCount = item.AthleteSports.Count;
+                        if (sportCount > 0)
+                        {
+                            string firstSport = item.AthleteSports.FirstOrDefault().Sport.Name;
+                            if (sportCount > 1)
+                            {
+                                string sportList = firstSport;
+                                var c = item.AthleteSports.ToList();
+                                for (int i = 1; i < sportCount; i++)
+                                {
+                                    sportList += ", " + c[i].Sport.Name;
+                                }
+                                <a tabindex="0" class="" role="button" data-toggle="popover"
+                                   data-trigger="focus" title="Other Sports" data-placement="bottom"
+                                   data-content="@sportList">
+                                    @firstSport... <span class="badge badge-info">@sportCount</span>
+                                </a>
+                            }
+                            else
+                            {
+                                @firstSport
+                            }
+                        }
+                    }
+                    @*For help with Bootstrap Popovers see: https://getbootstrap.com/docs/4.3/components/popovers/*@
+                </td>
+                <td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_PagingNavBar" />
+</form>
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+}

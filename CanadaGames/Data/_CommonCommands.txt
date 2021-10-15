@@ -1,0 +1,6 @@
+﻿Add-Migration -Context CanadaGamesContext -o Data\CGMigrations Initial
+Update-Database -Context ApplicationDbContext
+Update-Database -Context CanadaGamesContext
+
+Add this one line at the end of the Up in your migration:
+ExtraMigration.Steps(migrationBuilder);

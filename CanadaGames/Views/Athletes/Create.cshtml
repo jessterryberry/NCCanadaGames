@@ -1,0 +1,147 @@
+﻿@model CanadaGames.Models.Athlete
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create Athlete</h2>
+
+<hr />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiddleName" class="control-label"></label>
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AthleteCode" class="control-label"></label>
+                <input asp-for="AthleteCode" class="form-control" />
+                <span asp-validation-for="AthleteCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hometown" class="control-label"></label>
+                <input asp-for="Hometown" class="form-control" />
+                <span asp-validation-for="Hometown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DOB" class="control-label"></label>
+                <input asp-for="DOB" class="form-control" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearsInSport" class="control-label"></label>
+                <input asp-for="YearsInSport" class="form-control" />
+                <span asp-validation-for="YearsInSport" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Affiliation" class="control-label"></label>
+                <input asp-for="Affiliation" class="form-control" />
+                <span asp-validation-for="Affiliation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Goals" class="control-label"></label>
+                <input asp-for="Goals" class="form-control" />
+                <span asp-validation-for="Goals" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">@Html.DisplayNameFor(model => model.AthleteSports)</label>
+                <div class="col-md-offset-1">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                List<CanadaGames.ViewModels.OptionVM> checkboxes = ViewBag.SportOptions;
+                                foreach (var checkbox in checkboxes)
+                                {
+                                    if (cnt++ % 4 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedOptions"
+                                               value="@checkbox.ID"
+                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                        @checkbox.DisplayText @:&nbsp;&nbsp;
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContingentID" class="control-label"></label>
+                    <select asp-for="ContingentID" class="form-control" asp-items="ViewBag.ContingentID">
+                        <option value="">Select the Contingent</option>
+                    </select>
+                    <span asp-validation-for="ContingentID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SportID" class="control-label"></label>
+                    <select asp-for="SportID" class="form-control" asp-items="ViewBag.SportID">
+                        <option value="">Select Sport</option>
+                    </select>
+                    <span asp-validation-for="SportID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GenderID" class="control-label"></label>
+                    <select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID">
+                        <option value="">Select Gender</option>
+                    </select>
+                    <span asp-validation-for="GenderID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CoachID" class="control-label"></label>
+                    <select asp-for="CoachID" class="form-control" asp-items="ViewBag.CoachID">
+                        <option value="">None</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MediaInfo" class="control-label"></label>
+                    <textarea asp-for="MediaInfo" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="MediaInfo" class="text-danger"></span>
+                </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

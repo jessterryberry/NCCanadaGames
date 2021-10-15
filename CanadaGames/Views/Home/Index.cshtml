@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to the Canada Summer Games 2022</h1>
+    <p class="lead">
+        Canada Summer Games 2022.
+    </p>    
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Athletes</h2>
+        <p>Click here to view a complete list of the Athletes competing at the Canada Summer Games 2022.</p>
+        <p><a class="btn btn-outline-primary" @Html.ActionLink("Athletes/Index", "Index", "Athletes")</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Coaches</h2>
+        <p>Click here to view a complete list of the Coaches at the Canada Summer Games 2022.</p>
+        <p><a class="btn btn-outline-primary" @Html.ActionLink("Coaches/Index", "Index", "Coaches")</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Sports</h2>
+        <p>Click here to view a complete list of the Sports at the Canada Summer Games 2022.</p>
+        <p><a class="btn btn-outline-primary" @Html.ActionLink("Sports/Index", "Index", "Sports")</a></p>
+    </div>
+</div>
+
